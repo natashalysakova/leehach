@@ -1,52 +1,48 @@
 package com.company;
 
-import com.company.Practice.*;
+import com.company.Practice.GUI.MyDrawPanel;
 
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Main {
+public class Main implements ActionListener {
 
+   static JFrame frame;
 
     public static void main(String[] args) {
 
-        int numOfGuesses = 0;
 
-        SimpleDotCom theDotCom = new SimpleDotCom();
+        go();
 
-        int randomNum = (int)(Math.random() * 5);
-        int[] locations = new int [3];
-
-        locations[0] = randomNum;
-
-        for (int i = 1; i < locations.length; i++) {
-
-            locations[i] = locations[i - 1] + 1;
-        }
-
-        theDotCom.setLocationCells(locations);
-
-            boolean isAlive = true;
-
-            int arrayLength = theDotCom.getLocationCells().length;
-
-            while (isAlive){
-
-                System.out.println("Введите число: ");
-                String s = new Scanner(System.in).next();
-
-                System.out.println(theDotCom.CheckYourself(s));
-
-                numOfGuesses++;
-
-                if (theDotCom.getNumOfHits() == arrayLength){
-
-                    isAlive = false;
-
-                    System.out.println("Вам потребовалось " + numOfGuesses + " попытки(-ок)");
-                }
-            }
-        }
     }
+    public static void go(){
+
+        frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+        JButton button = new JButton("Change colors");
+        button.addActionListener(new Main());
+
+        MyDrawPanel drawPanel = new MyDrawPanel();
+
+        frame.getContentPane().add(BorderLayout.SOUTH, button);
+        frame.getContentPane().add(BorderLayout.CENTER, drawPanel);
+        frame.setSize(300, 300);
+        frame.setVisible(true);
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        frame.repaint();
+    }
+
+
+}
+
 
 
 
