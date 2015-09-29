@@ -1,52 +1,59 @@
 package com.company;
 
-import com.company.Practice.*;
+import com.company.Practice.MyDrawPanel;
 
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Main {
 
+    JFrame frame;
+    JLabel label;
 
     public static void main(String[] args) {
 
-        int numOfGuesses = 0;
+        Main gui = new Main();
+        gui.go();
+    }
 
-        SimpleDotCom theDotCom = new SimpleDotCom();
+    public void go() {
 
-        int randomNum = (int)(Math.random() * 5);
-        int[] locations = new int [3];
+        frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        locations[0] = randomNum;
+        JButton labelButton = new JButton("Change Label");
+        labelButton.addActionListener(new LabelListner());
 
-        for (int i = 1; i < locations.length; i++) {
+        JButton colorButton = new JButton("Change Circle");
+        colorButton.addActionListener(new ColorListner());
 
-            locations[i] = locations[i - 1] + 1;
-        }
+        label = new JLabel("I'm a label");
+        MyDrawPanel drawPanel = new MyDrawPanel();
 
-        theDotCom.setLocationCells(locations);
+        frame.getContentPane().add(BorderLayout.SOUTH, colorButton);
+        frame.getContentPane().add(BorderLayout.CENTER, drawPanel);
+        frame.getContentPane().add(BorderLayout.EAST, labelButton);
+        frame.getContentPane().add(BorderLayout.WEST, label);
 
-            boolean isAlive = true;
+        frame.setSize(300, 300);
+        frame.setVisible(true);
+    }
 
-            int arrayLength = theDotCom.getLocationCells().length;
-
-            while (isAlive){
-
-                System.out.println("Введите число: ");
-                String s = new Scanner(System.in).next();
-
-                System.out.println(theDotCom.CheckYourself(s));
-
-                numOfGuesses++;
-
-                if (theDotCom.getNumOfHits() == arrayLength){
-
-                    isAlive = false;
-
-                    System.out.println("Вам потребовалось " + numOfGuesses + " попытки(-ок)");
-                }
+        class LabelListner implements ActionListener {
+            public void actionPerformed(ActionEvent event) {
+                label.setText("Ouch!");
             }
         }
-    }
+
+        class ColorListner implements ActionListener{
+            public void actionPerformed(ActionEvent event){
+                frame.repaint();
+            }
+        }
+}
+
 
 
 
